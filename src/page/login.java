@@ -10,7 +10,7 @@ public class login extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton signupButton; // Added signup button
-    private ImageIcon banner = new ImageIcon("..\\USD_Hotels\\src\\assets\\usd-banner.png");
+    private ImageIcon banner = new ImageIcon(".\\src\\assets\\usd-banner.png");
 
     public static void main(String[] args) {
         new login();
