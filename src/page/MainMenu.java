@@ -1,9 +1,8 @@
 package page;
 
-import Components.CustomCardPanel;
 import Components.HistoryPanel;
+import Components.ListRoom;
 import Components.navHeader;
-import Components.navbar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +16,7 @@ public class MainMenu {
     private CardLayout cardLayout;
     private JLabel mainMenuLabel;
     private JLabel historyLabel;
+    private ListRoom listRoom;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -37,13 +37,10 @@ public class MainMenu {
     public void displayHomePage() {
         initializeFrame();
 
-        contentPanel = new JPanel(new CardLayout());
-
         // NAVBAR
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
 
-        // container
         JPanel containerNavbar = new JPanel();
         mainMenuLabel = createNavbarLabel("Home");
         mainMenuLabel.addMouseListener(new MouseAdapter() {
@@ -73,12 +70,11 @@ public class MainMenu {
         frame.setLayout(new BorderLayout());
         frame.add(navPanel, BorderLayout.NORTH);
 
-        frame.add(contentPanel, BorderLayout.CENTER);
-
-        contentPanel = new JPanel(new CardLayout());
+        contentPanel = new JPanel(new CardLayout()); // Memindahkan inisialisasi contentPanel ke sini
         frame.add(contentPanel, BorderLayout.CENTER);
 
         cardLayout = (CardLayout) contentPanel.getLayout();
+        listRoom = new ListRoom();
         roomListPage();
         frame.setVisible(true);
     }
@@ -91,82 +87,25 @@ public class MainMenu {
         return label;
     }
 
-    // ALL PAGE LISTED HERE
-    private void Test() {
-        JPanel card1 = createCard("Card 1");
-        addCardToContentPanel(card1);
-    }
-
     private void showHistoryPage() {
-        JPanel historyPanel = new HistoryPanel(); // Replace with the actual HistoryPanel class or component
+        JPanel historyPanel = new HistoryPanel(); // Ganti dengan kelas HistoryPanel sebenarnya atau komponen
         addCardToContentPanel(historyPanel);
     }
 
     private void roomListPage() {
-        JPanel roomList = new CustomCardPanel();
-        System.out.println(roomList);
-        addCardToContentPanel(roomList);
+        JPanel roomListPanel = new JPanel(new BorderLayout());
+        roomListPanel.add(listRoom, BorderLayout.CENTER);
+        addCardToContentPanel(roomListPanel);
     }
 
-    // ----------------------------
-    // END OF ALL PAGE LISTED HERE
-    // ----------------------------
+    private void ListRoomCreated(ListRoom list) {
+        JPanel containerRoomList = new JPanel();
+        containerRoomList.add(list);
+        addCardToContentPanel(containerRoomList);
+    }
 
-    // DO NOT TOUCH THIS
     private void addCardToContentPanel(JPanel card) {
         contentPanel.add(card, "Card 1");
         cardLayout.show(contentPanel, "Card 1");
     }
-
-    private JPanel createCard(String cardName) {
-        JPanel card = new JPanel();
-        JLabel label = new JLabel(cardName);
-        label.setForeground(Color.WHITE);
-        card.add(label);
-        return card;
-    }
-
 }
-
-// private JPanel createNavPanel() {
-
-// navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
-
-// navPanel.add(new navHeader());
-
-// // Buat objek navbar dengan mengirimkan CardLayout dan contentPanel
-// nav = new navbar((CardLayout) contentPanel.getLayout(), contentPanel);
-// navPanel.add(nav);
-
-// return navPanel;
-// }
-
-// private void addCardsToContentPanel() {
-// List<JPanel> homePanels = createHomePage();
-
-// for (int i = 0; i < homePanels.size(); i++) {
-// // Setiap kartu ditambahkan ke contentPanel dengan nama unik
-// contentPanel.add(homePanels.get(i), "card" + i);
-// }
-// }
-
-// private List<JPanel> createHomePage() {
-// List<JPanel> homePanels = new ArrayList<>();
-
-// // Buat dan tambahkan CustomCardPanel
-// CustomCardPanel roomList = new CustomCardPanel();
-// roomList.setPreferredSize(new Dimension(400, 300));
-// roomList.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-// JPanel roomListWrapper = new JPanel(new BorderLayout());
-// roomListWrapper.add(roomList, BorderLayout.CENTER);
-// homePanels.add(roomListWrapper);
-
-// // Buat dan tambahkan HistoryPanel
-// HistoryPanel historyPanel = new HistoryPanel();
-// JPanel historyWrapper = new JPanel(new BorderLayout());
-// historyWrapper.add(historyPanel, BorderLayout.CENTER);
-// homePanels.add(historyWrapper);
-
-// return homePanels;
-// }
-// }
