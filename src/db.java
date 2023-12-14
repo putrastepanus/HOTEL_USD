@@ -1,34 +1,40 @@
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class db {
-    private String url = "jdbc:mysql://localhost:3306/hotel_usd";
-    private String username = "root";
-    private String password = "";
-    private Connection connection;
 
-    public db(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
-    }
-
-    void connectDb() {
+    public static Connection connect() {
+        Connection connection = null;
         try {
+            // Load driver JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Informasi koneksi ke database
+            String url = "jdbc:mysql://localhost:3306/hotel_usd";
+            String username = "root";
+            String password = "";
+
+            // Membuat koneksi
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Connection to XAMPP database successful!");
-        } catch (SQLException e) {
-            System.out.println("Connection to XAMPP database failed!");
+
+            System.out.println("Koneksi ke database berhasil.");
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+        return connection;
     }
 
-    void disconnectDb() {
+    public static void main(String[] args) {
+        // Membuat koneksi
+        Connection connection = connect();
+
+        // Menutup koneksi setelah selesai
         try {
-            if (connection != null && !connection.isClosed()) {
+            if (connection != null) {
                 connection.close();
-                System.out.println("Connection closed.");
+                System.out.println("Koneksi ditutup.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
