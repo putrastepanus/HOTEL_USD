@@ -1,11 +1,13 @@
+package Konek;
 
-import java.sql.Connection;
+
+import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class db {
 
-    public static Connection connect() {
+    public Connection getConnect() {
         Connection connection = null;
         try {
             // Load driver JDBC
@@ -26,18 +28,19 @@ public class db {
         return connection;
     }
 
-    public static void main(String[] args) {
-        // Membuat koneksi
-        Connection connection = connect();
-
-        // Menutup koneksi setelah selesai
-        try {
-            if (connection != null) {
-                connection.close();
-                System.out.println("Koneksi ditutup.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        // Membuat koneksi
+//        db konek = new db();
+//        Connection connection = konek.getConnect();
+//
+//        // Menutup koneksi setelah selesai
+//        try {
+//            if (connection != null) {
+//                connection.close();
+//                System.out.println("Koneksi ditutup.");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
