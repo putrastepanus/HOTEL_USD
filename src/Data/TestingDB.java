@@ -9,61 +9,34 @@ package Data;
  * @author stepa
  */
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestingDB {
-    private int id;
-    private String name;
-    private int age;
-
-    // Konstruktor
-    public TestingDB(int id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    // Metode untuk menambahkan data ke database
-    public void saveToDatabase() {
-        Connection connection = null;
-        try {
-            // Mengatur koneksi ke database (misalnya, MySQL)
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/nama_database";
-            String username = "username";
-            String password = "password";
-            connection = DriverManager.getConnection(url, username, password);
-
-            // Menyiapkan pernyataan SQL
-            String sql = "INSERT INTO person (id, name, age) VALUES (?, ?, ?)";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, id);
-                statement.setString(2, name);
-                statement.setInt(3, age);
-
-                // Menjalankan pernyataan SQL
-                statement.executeUpdate();
-                System.out.println("Data berhasil disimpan ke database.");
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // Menutup koneksi setelah selesai
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public static void main(String[] args) {
-        // Membuat objek Person
-        TestingDB person = new TestingDB(1, "John Doe", 25);
+        List<Receptionis> dataResepsionis = Receptionis.getAllUsers();
 
-        // Menyimpan objek ke database
-        person.saveToDatabase();
+        // Menampilkan data receptionis yang didapatkan dari database
+        for (Receptionis receptionist : dataResepsionis) {
+            System.out.println("ID: " + receptionist.getRepceptionis_ID());
+            System.out.println("Nama: " + receptionist.getNama());
+            System.out.println("Email: " + receptionist.getEmail());
+            System.out.println("Nomor Telepon: " + receptionist.getNoTelp());
+            System.out.println("Alamat: " + receptionist.getAlamat());
+            System.out.println("------------------------------");
+        }
+
+        List<Guest> dataGuest = Guest.getAllUsers();
+
+        // Menampilkan data receptionis yang didapatkan dari database
+        for (Guest receptionist : dataGuest) {
+            System.out.println("ID: " + receptionist.getGUEST_ID());
+            System.out.println("Nama: " + receptionist.getNama());
+            System.out.println("Email: " + receptionist.getEmail());
+            System.out.println("Nomor Telepon: " + receptionist.getNoTelp());
+            System.out.println("Alamat: " + receptionist.getAlamat());
+            System.out.println("------------------------------");
+        }
     }
 }
-

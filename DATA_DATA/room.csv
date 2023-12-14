@@ -1,0 +1,16 @@
+nomo_kamar,tipe_kamar,kapasitas_kamar,ukuran_kamar,harga_per_malam,ketersediaan
+311,Deluxe Room,4,16x20,2439336,false
+139,Deluxe Room,1,9x11,1187736,true
+322,Standard Room,3,15x18,2780658,true
+343,Executive Suite,3,11x14,2676806,true
+148,Superior Room,4,10x12,4438975,true
+150,Deluxe Room,2,9x11,2909798,true
+255,Superior Room,4,12x15,1431799,true
+177,Superior Room,3,16x20,4277574,false
+397,Executive Suite,4,14x16,2903937,false
+227,Executive Suite,2,16x20,3547209,true
+220,Superior Room,1,11x14,4672459,true
+336,Executive Suite,3,8x12,1397279,false
+169,Superior Room,2,14x16,327071,true
+329,Deluxe Room,3,16x20,4774809,false
+380,Executive Suite,2,13x15,2968095,true
