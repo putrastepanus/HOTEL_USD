@@ -16,8 +16,12 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
+
+import Data.Reservasi;
 
 public class BookingPanel extends JPanel {
 
@@ -84,7 +88,7 @@ public class BookingPanel extends JPanel {
                 "<b>Room Size:</b> " + size + "<br>" +
                 "<b>Capacity:</b> " + capacity + "<br>" +
                 "<b>Status:</b> " + status + "<br>" +
-            
+
                 "<h3 style='color: #FFFFFF;'>Price/Night: " + formattedPrice + "</h3><br>" +
                 "</div></html>";
 
@@ -131,7 +135,15 @@ public class BookingPanel extends JPanel {
         totalLabel.setHorizontalAlignment(JLabel.RIGHT);
 
         JButton checkoutButton = new JButton("Checkout");
+
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = now.format(formatter);
+        System.out.println("Timestamp: " + timestamp);
         checkoutButton.addActionListener(e -> {
+            Reservasi reservasi = new Reservasi();
+            reservasi.tambahReservasi(timestamp, checkinSelectedDateLabel.getText(),
+                    checkoutSelectedDateLabel.getText());
             JOptionPane.showMessageDialog(null, "Checkout successful!, Please See Your History to see your booking");
         });
 

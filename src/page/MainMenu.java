@@ -50,7 +50,7 @@ public class MainMenu {
             @Override
             public void mouseClicked(MouseEvent e) {
                 HistoryMenu historyMenu = new HistoryMenu();
-                historyMenu.displayHomePage();
+                historyMenu.displayHistoryPage();
                 frame.dispose();
             }
         });
