@@ -128,7 +128,6 @@ public class ListRoom extends JPanel {
     }
 
     private void displayRoomDetail(RoomInfo roomInfo) {
-
         DetailRooms detailPanel = new DetailRooms(roomInfo);
         detailPanel.setVisible(true);
     }

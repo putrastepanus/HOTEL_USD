@@ -1,5 +1,6 @@
 package page;
 
+import Components.DetailRooms;
 import Components.HistoryPanel;
 import Components.ListRoom;
 import Components.navHeader;
@@ -17,6 +18,7 @@ public class MainMenu {
     private JLabel mainMenuLabel;
     private JLabel historyLabel;
     private ListRoom listRoom;
+    private DetailRooms detailRooms;
     private HistoryPanel historyPage;
 
     public static void main(String[] args) {
@@ -89,8 +91,7 @@ public class MainMenu {
     }
 
     private void showHistoryPage() {
-
-        HistoryPanel historyPanel = new HistoryPanel();
+        JPanel historyPanel = new HistoryPanel(); // Ganti dengan kelas HistoryPanel sebenarnya atau komponen
         addCardToContentPanel(historyPanel);
     }
 
