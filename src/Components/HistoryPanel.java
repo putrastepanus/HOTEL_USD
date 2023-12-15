@@ -11,7 +11,7 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class HistoryPanel extends JPanel {
+public class HistoryPanel extends JScrollPane {
     String roomNumber;
     String roomType;
     int roomCapacity;

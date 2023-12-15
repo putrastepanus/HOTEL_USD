@@ -25,35 +25,25 @@ public class BookingPanel extends JPanel {
     private JDatePicker checkinPicker;
     private JDatePicker checkoutPicker;
 
-    private String roomName;
+    // private int noKamar;
+    private int roomNo;
     private String type;
     private int capacity;
     private int price;
     private String status;
-    private String description;
     private String size;
+
     JLabel totalLabel;
 
-    // public static void main(String[] args) {
-    // SwingUtilities.invokeLater(() -> {
-    // BookingPanel bookingPanel = new BookingPanel("Room 1", "Single", 1, 100,
-    // "Available", "Description",
-    // "Small");
-    // bookingPanel.display();
-    // });
-    // }
-
-    public BookingPanel(String roomName, String type, int capacity, int price, String status, String description,
-            String size) {
-        this.roomName = roomName;
+    public BookingPanel(int roomNo, String type, int capacity, int price, String status, String size) {
+        // this.noKamar = noKamar;
+        this.roomNo = roomNo;
         this.type = type;
         this.capacity = capacity;
         this.price = price;
         this.status = status;
-        this.description = description;
-        this.size = size;
 
-        System.out.println("Room Name: " + roomName);
+        this.size = size;
     }
 
     private void initialValues() {
@@ -90,11 +80,11 @@ public class BookingPanel extends JPanel {
 
         String detailsHtml = "<html><div style='text-align: center;'>" +
                 "<h2 style='color: #FFFFFF;'><b>" + "Room Information" + "</b></h2><br>" +
-                "<b>Room Name:</b> " + roomName + "<br>" +
+                "<b>Room Name:</b> " + roomNo + "<br>" +
                 "<b>Room Size:</b> " + size + "<br>" +
                 "<b>Capacity:</b> " + capacity + "<br>" +
                 "<b>Status:</b> " + status + "<br>" +
-                "<b>Description:</b> " + description + "<br>" +
+            
                 "<h3 style='color: #FFFFFF;'>Price/Night: " + formattedPrice + "</h3><br>" +
                 "</div></html>";
 

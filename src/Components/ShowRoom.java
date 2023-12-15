@@ -27,9 +27,8 @@ public class ShowRoom extends JScrollPane {
         List<Room> roomsList = Room.getAllUsers();
         for (Room room : roomsList) {
             addRoom(roomPanel, "https://via.placeholder.com/150", room.getNo_kamar(), room.getTipe_kamar(),
-                    room.getKapasitas_kamar(), room.getHarga_per_malam(),
-                    room.isKetersediaan() ? "Tersedia" : "Tidak Tersedia",
-                    "Deskripsi kamar: " + room.getUkuran_kamar(), room.getUkuran_kamar());
+                    room.getKapasitas_kamar(), room.getHarga_per_malam(), "Tersedia",
+                    room.getUkuran_kamar());
         }
 
         setViewportView(roomPanel);
@@ -38,8 +37,8 @@ public class ShowRoom extends JScrollPane {
         repaint();
     }
 
-    private void addRoom(JPanel roomPanel, String imageUrl, String roomName, String type, int capacity, int price,
-            String status, String description, String size) {
+    private void addRoom(JPanel roomPanel, String imageUrl, int roomNo, String type, int capacity, int price,
+            String status, String size) {
 
         JPanel roomCardPanel = new JPanel(new BorderLayout());
 
@@ -60,9 +59,9 @@ public class ShowRoom extends JScrollPane {
 
         JPanel detailsPanel = new JPanel(new BorderLayout());
 
-        String detailsHtml = "<html><b>" + type + "</b><br>" + "Room Name: " + roomName + "<br>" + "Room Size: " + size
-                + "<br>" + "Capacity: " + capacity + "<br>" + "Status: " + status + "<br>" + "Description: "
-                + description + "<br>" + "<b>" + "Price: " + formattedPrice + "</b>" + "<br>" + "</html>";
+        String detailsHtml = "<html><b>" + type + "</b><br>" + "Room Name: " + roomNo + "<br>" + "Room Size: " + size
+                + "<br>" + "Capacity: " + capacity + "<br>" + "Status: " + status + "<br>" + "<br>" + "<b>" + "Price: "
+                + formattedPrice + "</b>" + "<br>" + "</html>";
 
         JLabel detailsLabel = new JLabel(detailsHtml);
 
@@ -84,14 +83,13 @@ public class ShowRoom extends JScrollPane {
             public void actionPerformed(ActionEvent e) {
                 if (user.equals("ADMIN")) {
                     // Display edit frame
-                    // EditFrame editFrame = new EditFrame(roomName, type, capacity, price,
+                    // EditFrame editFrame = new EditFrame(roomNo, type, capacity, price,
                     // status, description, size);
                     // editFrame.display();
                     System.out.println("Edit");
                 } else {
                     // Display booking panel
-                    BookingPanel bookingPanel = new BookingPanel(roomName, type, capacity, price,
-                            status, description, size);
+                    BookingPanel bookingPanel = new BookingPanel(roomNo, type, capacity, price, status, size);
                     bookingPanel.display();
                 }
             }

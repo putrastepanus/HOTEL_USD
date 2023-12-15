@@ -30,16 +30,15 @@ public class DetailRooms extends JPanel {
         detailsArea.append("Total Rooms: " + roomInfo.totalRooms);
 
         JScrollPane scrollPane = new JScrollPane(detailsArea);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Menghapus border dari JScrollPane
-
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         JButton bookButton = new JButton("Book Now");
         bookButton.setFont(new Font("Arial", Font.BOLD, 16));
         bookButton.setForeground(Color.WHITE);
-        bookButton.setBackground(new Color(51, 102, 204)); // Warna tombol
+        bookButton.setBackground(new Color(51, 102, 204)); 
         bookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aksi yang akan diambil saat tombol ditekan
+       
                 JOptionPane.showMessageDialog(DetailRooms.this, "Booking functionality will be implemented soon!");
             }
         });

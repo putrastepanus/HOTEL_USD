@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 
 import Components.ShowRoom;
 
-public class MainMenu {
+public class HistoryMenu {
 
     private JFrame frame;
     private JPanel contentPanel;
@@ -20,10 +20,11 @@ public class MainMenu {
     private JLabel mainMenuLabel;
     private JLabel historyLabel;
     private ShowRoom room;
+    private HistoryPanel history;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            MainMenu roomMenu = new MainMenu();
+            HistoryMenu roomMenu = new HistoryMenu();
             roomMenu.displayHomePage();
         });
     }
@@ -49,8 +50,8 @@ public class MainMenu {
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                HistoryMenu historyMenu = new HistoryMenu();
-                historyMenu.displayHomePage();
+                MainMenu mainMenu = new MainMenu();
+                mainMenu.displayHomePage();
                 frame.dispose();
             }
         });
@@ -80,9 +81,9 @@ public class MainMenu {
         contentPanel = new JPanel(new CardLayout());
 
         // Initialize room object
-        room = new ShowRoom("none");
+        history = new HistoryPanel();
 
-        contentPanel.add(room);
+        contentPanel.add(history);
 
         frame.add(contentPanel, BorderLayout.CENTER);
 
