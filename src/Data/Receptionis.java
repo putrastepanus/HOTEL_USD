@@ -19,25 +19,24 @@ public class Receptionis {
     private int Repceptionis_ID;
     private String nama;
     private String email;
-    private String noTelp;
+    private String no_telp;
     private String alamat;
 
     public Receptionis(int Repceptionis_ID, String nama, String email, String noTelp, String alamat) {
         this.Repceptionis_ID = Repceptionis_ID;
         this.nama = nama;
         this.email = email;
-        this.noTelp = noTelp;
+        this.no_telp = noTelp;
         this.alamat = alamat;
     }
-    
-    public Receptionis(){
-        
+
+    public Receptionis() {
+
     }
 
 //    public static List<Receptionis> getRepceptionisList() {
 //        return RepceptionisList;
 //    }
-
     public int getRepceptionis_ID() {
         return Repceptionis_ID;
     }
@@ -51,7 +50,7 @@ public class Receptionis {
     }
 
     public String getNoTelp() {
-        return noTelp;
+        return no_telp;
     }
 
     public String getAlamat() {
@@ -97,5 +96,43 @@ public class Receptionis {
             }
         }
         return RepceptionisList;
+    }
+
+    public void tambahReceptionis(String nama, String email, String no_telp, String alamat) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        PreparedStatement ps = null;
+
+        try {
+            // Menggunakan PreparedStatement untuk memasukkan parameter
+            String insertQuery = "INSERT INTO RECEPTIONIS (nama, email, no_telp, alamat) VALUES (?, ?, ?, ?)";
+            ps = connection.prepareStatement(insertQuery);
+
+            // Set nilai parameter
+            ps.setString(1, nama);
+            ps.setString(2, email);
+            ps.setString(3, no_telp);
+            ps.setString(4, alamat);
+
+            // Eksekusi insert
+            int rowsInserted = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang berhasil diinsert
+            System.out.println("Jumlah baris yang berhasil diinsert: " + rowsInserted);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
