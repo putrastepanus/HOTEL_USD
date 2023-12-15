@@ -43,10 +43,24 @@ public class TestingDB {
         //        room.tambahKamar();
 
 //        Room room = new Room();
+//        room.setKetersediaan(false, 139);
+        List<Room> roomList = Room.cariKamar(139);
+        for (Room room : roomList) {
+            System.out.println("Room Number: " + room.getNo_kamar());
+            System.out.println("Room Type: " + room.getTipe_kamar());
+            System.out.println("Capacity: " + room.getKapasitas_kamar());
+            System.out.println("Ukuran: " + room.getUkuran_kamar());
+            System.out.println("harga: " + room.getHarga_per_malam());
+            System.out.println("ketersediaan: " + room.isKetersediaan());
+            // Add more print statements for other room details
+        }
+
+
 //        room.editKamar(139, "tipe_kamar", 0, "ukuran_kamar", 0, true);
-        fasilitas_kamar fal = new fasilitas_kamar();
-        fal.tambahFasilitasKamar(69, 69);
+//        fasilitas_kamar fal = new fasilitas_kamar();
+//        fal.tambahFasilitasKamar(69, 69);
 //        fal.editFasilitasKamar(0, 0, 0);
-        
+
+
     }
 }

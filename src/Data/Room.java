@@ -111,7 +111,6 @@ public class Room {
 
             // Menampilkan jumlah baris yang terupdate
             System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
-
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } finally {
@@ -194,7 +193,6 @@ public class Room {
 
             // Menampilkan jumlah baris yang terupdate
             System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
-
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } finally {
@@ -212,5 +210,44 @@ public class Room {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+
+    public static List<Room> cariKamar(int no_kamar) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        Statement st = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+        ps = connection.prepareStatement("SELECT * FROM ROOM WHERE no_kamar = ?");
+        ps.setInt(1, no_kamar);
+        rs = ps.executeQuery();
+            while (rs.next()) {
+                String tipe_kamar = rs.getString("tipe_kamar");
+                int kapasitas_kamar = rs.getInt("kapasitas_kamar");
+                String ukuran_kamar = rs.getString("ukuran_kamar");
+                int harga_per_malam = rs.getInt("harga_per_malam");
+                boolean ketersediaan = rs.getBoolean("ketersediaan");
+                RoomsList.add(new Room(no_kamar, tipe_kamar, kapasitas_kamar, ukuran_kamar, harga_per_malam, ketersediaan));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return RoomsList;
     }
 }
