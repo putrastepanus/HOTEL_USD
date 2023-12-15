@@ -92,4 +92,43 @@ public class Room {
         }
         return RoomsList;
     }
+
+    public void setKetersediaan(boolean ketersediaan, int no_kamar) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        Statement st = null;
+         PreparedStatement ps = null;
+        try {
+            String updateQuery = "UPDATE ROOM SET ketersediaan = ? WHERE no_kamar = ?";
+            ps = connection.prepareStatement(updateQuery);
+
+            // Set nilai parameter
+            ps.setBoolean(1, ketersediaan);
+            ps.setInt(2, no_kamar);
+
+            // Eksekusi update
+            int rowsUpdated = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang terupdate
+            System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
+
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }
