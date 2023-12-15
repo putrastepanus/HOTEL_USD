@@ -8,14 +8,14 @@ import Konek.db;
 public class Room {
 
     private static List<Room> RoomsList = new ArrayList<>();
-    private String no_kamar;
+    private int no_kamar;
     private String tipe_kamar;
     private int kapasitas_kamar;
     private String ukuran_kamar;
     private int harga_per_malam;
     private boolean ketersediaan;
 
-    public Room(String no_kamar, String tipe_kamar, int kapasitas_kamar, String ukuran_kamar, int harga_per_malam, boolean ketersediaan) {
+    public Room(int no_kamar, String tipe_kamar, int kapasitas_kamar, String ukuran_kamar, int harga_per_malam, boolean ketersediaan) {
         this.no_kamar = no_kamar;
         this.tipe_kamar = tipe_kamar;
         this.kapasitas_kamar = kapasitas_kamar;
@@ -31,7 +31,7 @@ public class Room {
         return RoomsList;
     }
 
-    public String getNo_kamar() {
+    public int getNo_kamar() {
         return no_kamar;
     }
 
@@ -65,7 +65,7 @@ public class Room {
             st = connection.createStatement();
             rs = st.executeQuery("SELECT * FROM ROOM");
             while (rs.next()) {
-                String no_kamar = rs.getString("no_kamar");
+                int no_kamar = rs.getInt("no_kamar");
                 String tipe_kamar = rs.getString("tipe_kamar");
                 int kapasitas_kamar = rs.getInt("kapasitas_kamar");
                 String ukuran_kamar = rs.getString("ukuran_kamar");
@@ -111,7 +111,6 @@ public class Room {
 
             // Menampilkan jumlah baris yang terupdate
             System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
-
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } finally {
@@ -131,7 +130,89 @@ public class Room {
         }
     }
 
-    public static List<Room> cariKamar(String no_kamar) {
+    public void tambahKamar(int no_kamar, String tipe_kamar, int kapasitas_kamar, String ukuran_kamar, int harga_per_malam, boolean ketersediaan) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        PreparedStatement ps = null;
+
+        try {
+            // Menggunakan PreparedStatement untuk memasukkan parameter
+            String insertQuery = "INSERT INTO ROOM (no_kamar, tipe_kamar, kapasitas_kamar, ukuran_kamar, harga_per_malam, ketersediaan) VALUES (?, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(insertQuery);
+
+            // Set nilai parameter
+            ps.setInt(1, no_kamar);
+            ps.setString(2, tipe_kamar);
+            ps.setInt(3, kapasitas_kamar);
+            ps.setString(4, ukuran_kamar);
+            ps.setInt(5, harga_per_malam);
+            ps.setBoolean(6, ketersediaan);
+
+            // Eksekusi insert
+            int rowsInserted = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang berhasil diinsert
+            System.out.println("Jumlah baris yang berhasil diinsert: " + rowsInserted);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    public void editKamar(int no_kamar, String tipe_kamar, int kapasitas_kamar, String ukuran_kamar, int harga_per_malam, boolean ketersediaan) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        Statement st = null;
+        PreparedStatement ps = null;
+        try {
+            String updateQuery = "UPDATE ROOM SET tipe_kamar = ?, kapasitas_kamar = ?, ukuran_kamar = ?, harga_per_malam = ?, ketersediaan = ? WHERE no_kamar = ?";
+            ps = connection.prepareStatement(updateQuery);
+
+            // Set nilai parameter
+            ps.setString(1, tipe_kamar);
+            ps.setInt(2, kapasitas_kamar);
+            ps.setString(3, ukuran_kamar);
+            ps.setInt(4, harga_per_malam);
+            ps.setBoolean(5, ketersediaan);
+            ps.setInt(6, no_kamar);
+            
+
+            // Eksekusi update
+            int rowsUpdated = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang terupdate
+            System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    public static List<Room> cariKamar(int no_kamar) {
         db konek = new db();
         Connection connection = konek.getConnect();
         Statement st = null;
@@ -139,10 +220,9 @@ public class Room {
         PreparedStatement ps = null;
 
         try {
-            st = connection.createStatement();
-            rs = st.executeQuery("SELECT * FROM ROOM WHERE no_kamar = ?");
-            ps.setInt(1, no_kamar);
-            rs = ps.executeQuery();
+        ps = connection.prepareStatement("SELECT * FROM ROOM WHERE no_kamar = ?");
+        ps.setInt(1, no_kamar);
+        rs = ps.executeQuery();
             while (rs.next()) {
                 String tipe_kamar = rs.getString("tipe_kamar");
                 int kapasitas_kamar = rs.getInt("kapasitas_kamar");

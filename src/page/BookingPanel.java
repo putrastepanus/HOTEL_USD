@@ -4,15 +4,20 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Locale;
+
 import org.jdatepicker.JDatePicker;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.*;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Properties;
-import javax.swing.JFrame;
 
 public class BookingPanel extends JPanel {
 
@@ -20,9 +25,35 @@ public class BookingPanel extends JPanel {
     private JDatePicker checkinPicker;
     private JDatePicker checkoutPicker;
 
-    public static void main(String[] args) {
-        BookingPanel bookingPanel = new BookingPanel();
-        bookingPanel.display();
+    private String roomName;
+    private String type;
+    private int capacity;
+    private int price;
+    private String status;
+    private String description;
+    private String size;
+    JLabel totalLabel;
+
+    // public static void main(String[] args) {
+    // SwingUtilities.invokeLater(() -> {
+    // BookingPanel bookingPanel = new BookingPanel("Room 1", "Single", 1, 100,
+    // "Available", "Description",
+    // "Small");
+    // bookingPanel.display();
+    // });
+    // }
+
+    public BookingPanel(String roomName, String type, int capacity, int price, String status, String description,
+            String size) {
+        this.roomName = roomName;
+        this.type = type;
+        this.capacity = capacity;
+        this.price = price;
+        this.status = status;
+        this.description = description;
+        this.size = size;
+
+        System.out.println("Room Name: " + roomName);
     }
 
     private void initialValues() {
@@ -32,7 +63,6 @@ public class BookingPanel extends JPanel {
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         frame.setResizable(true);
-
     }
 
     public void display() {
@@ -40,13 +70,54 @@ public class BookingPanel extends JPanel {
 
         JPanel panel = new JPanel(new GridLayout(1, 2));
 
+        JPanel leftPane = createLeftPane();
+        JPanel rightPane = createRightPane();
+
+        panel.add(leftPane);
+        panel.add(rightPane);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    private JPanel createLeftPane() {
         JPanel leftPane = new JPanel(new BorderLayout());
         leftPane.setBackground(Color.decode("#AA323C"));
-        JLabel bannerLabel = new JLabel("Room Information");
-        bannerLabel.setForeground(Color.WHITE);
-        bannerLabel.setHorizontalAlignment(JLabel.CENTER);
-        leftPane.add(bannerLabel, BorderLayout.CENTER);
 
+        NumberFormat numberFormat = NumberFormat
+                .getCurrencyInstance(new Locale.Builder().setLanguage("id").setRegion("ID").build());
+        String formattedPrice = numberFormat.format(price);
+
+        String detailsHtml = "<html><div style='text-align: center;'>" +
+                "<h2 style='color: #FFFFFF;'><b>" + "Room Information" + "</b></h2><br>" +
+                "<b>Room Name:</b> " + roomName + "<br>" +
+                "<b>Room Size:</b> " + size + "<br>" +
+                "<b>Capacity:</b> " + capacity + "<br>" +
+                "<b>Status:</b> " + status + "<br>" +
+                "<b>Description:</b> " + description + "<br>" +
+                "<h3 style='color: #FFFFFF;'>Price/Night: " + formattedPrice + "</h3><br>" +
+                "</div></html>";
+
+        JLabel detailsLabel = new JLabel(detailsHtml);
+        detailsLabel.setForeground(Color.WHITE);
+        leftPane.add(detailsLabel, BorderLayout.CENTER);
+
+        JPanel containerPanel = new JPanel(new GridBagLayout());
+        containerPanel.setBackground(Color.decode("#AA323C"));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        containerPanel.add(leftPane, gbc);
+
+        return containerPanel;
+    }
+
+    private JPanel createRightPane() {
         JPanel rightPane = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -66,55 +137,64 @@ public class BookingPanel extends JPanel {
         checkoutPicker = createDatePicker();
         JLabel checkoutSelectedDateLabel = new JLabel("Selected Date: ");
 
-        JLabel totalLabel = new JLabel("Total" + " " + "IDR 1000000");
+        totalLabel = new JLabel("Total" + " " + "IDR 1000000");
         totalLabel.setHorizontalAlignment(JLabel.RIGHT);
 
-        JButton submitButton = new JButton("Submit");
-        submitButton.addActionListener(e -> {
-            System.out.println("Submit button clicked");
+        JButton checkoutButton = new JButton("Checkout");
+        checkoutButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Checkout successful!, Please See Your History to see your booking");
+        });
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            RoomMenu roomMenu = new RoomMenu();
+            roomMenu.displayHomePage();
+            frame.dispose();
         });
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         rightPane.add(guestNameLabel, gbc);
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         rightPane.add(guestNameField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         rightPane.add(totalGuestLabel, gbc);
 
-        gbc.gridx = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         rightPane.add(totalGuestComboBox, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
-        rightPane.add(checkinLabel, gbc);
-
-        gbc.gridx = 1;
-        rightPane.add((Component) checkinPicker, gbc);
-
-        gbc.gridx = 1;
         gbc.gridy = 4;
-        rightPane.add(checkoutLabel, gbc);
-
-        gbc.gridx = 1;
-        rightPane.add((Component) checkoutPicker, gbc);
+        rightPane.add(checkinLabel, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 5;
+        rightPane.add((Component) checkinPicker, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        rightPane.add(checkoutLabel, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        rightPane.add((Component) checkoutPicker, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
         rightPane.add(totalLabel, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        rightPane.add(submitButton, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        rightPane.add(backButton, gbc);
 
-        panel.add(leftPane);
-        panel.add(rightPane);
-
-        frame.add(panel);
-        frame.setVisible(true);
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        rightPane.add(checkoutButton, gbc);
 
         checkinPicker.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +202,9 @@ public class BookingPanel extends JPanel {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 String formattedDate = dateFormat.format(selectedDate);
                 checkinSelectedDateLabel.setText("Selected Date: " + formattedDate);
+
+                System.out.println("Checkin : " + checkinSelectedDateLabel);
+                calculateTotalPricePerDay();
             }
         });
 
@@ -131,8 +214,12 @@ public class BookingPanel extends JPanel {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 String formattedDate = dateFormat.format(selectedDate);
                 checkoutSelectedDateLabel.setText("Selected Date: " + formattedDate);
+                System.out.println("Checkout : " + checkoutSelectedDateLabel);
+                calculateTotalPricePerDay();
             }
         });
+
+        return rightPane;
     }
 
     private JDatePicker createDatePicker() {
@@ -154,7 +241,41 @@ public class BookingPanel extends JPanel {
                 }
             }
         });
-
         return datePicker;
     }
+
+    private void calculateTotalPricePerDay() {
+        LocalDate checkinDate = getSelectedDate(checkinPicker);
+        LocalDate checkoutDate = getSelectedDate(checkoutPicker);
+
+        if (checkinDate != null && checkoutDate != null) {
+            long numberOfDays = Duration.between(checkinDate.atStartOfDay(), checkoutDate.atStartOfDay()).toDays();
+
+            System.out.println("Number of days: " + numberOfDays);
+
+            double nightlyPrice = (double) price;
+            double totalWithoutPPN = numberOfDays * nightlyPrice;
+            double ppn = totalWithoutPPN * 0.05; // PPN is 5% of the total without PPN
+            double totalWithPPN = totalWithoutPPN + ppn;
+
+            NumberFormat numberFormat = NumberFormat
+                    .getCurrencyInstance(new Locale.Builder().setLanguage("id").setRegion("ID").build());
+            String formattedTotal = numberFormat.format(totalWithPPN);
+            totalLabel.setText("Total " + formattedTotal);
+
+            // Display or use the totalWithPPN as needed
+            System.out.println("Total Price per Day (including 5% PPN): " + totalWithPPN);
+        } else {
+            System.out.println("Please select both check-in and check-out dates.");
+        }
+    }
+
+    private LocalDate getSelectedDate(JDatePicker datePicker) {
+        Date selectedDate = (Date) datePicker.getModel().getValue();
+        if (selectedDate != null) {
+            return selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        return null;
+    }
+
 }

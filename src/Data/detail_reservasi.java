@@ -117,4 +117,44 @@ public class detail_reservasi {
         return detailReservasi;
     }
 
+    public void tambahDetailReservasi(int RECEPTIONIS_ID, int RESERVASI_ID, int NO_KAMAR, int GUEST_ID, int JUMLAH_KAMAR, int BIAYA, int JUMLAH_TAMU) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        PreparedStatement ps = null;
+
+        try {
+            // Menggunakan PreparedStatement untuk memasukkan parameter
+            String insertQuery = "INSERT INTO DETAIL_RESERVASI (RECEPTIONIS_ID, RESERVASI_ID, NO_KAMAR, GUEST_ID, JUMLAH_KAMAR, BIAYA, JUMLAH_TAMU) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(insertQuery);
+
+            // Set nilai parameter
+            ps.setInt(1, RECEPTIONIS_ID);
+            ps.setInt(2, RESERVASI_ID);
+            ps.setInt(3, NO_KAMAR);
+            ps.setInt(4, GUEST_ID);
+            ps.setInt(5, JUMLAH_KAMAR);
+            ps.setInt(6, BIAYA);
+            ps.setInt(7, JUMLAH_TAMU);
+
+            // Eksekusi insert
+            int rowsInserted = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang berhasil diinsert
+            System.out.println("Jumlah baris yang berhasil diinsert: " + rowsInserted);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }

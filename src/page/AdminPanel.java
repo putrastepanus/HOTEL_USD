@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 
 import Components.ShowRoom;
 
-public class RoomMenu {
+public class AdminPanel {
 
     private JFrame frame;
     private JPanel contentPanel;
@@ -23,13 +23,13 @@ public class RoomMenu {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            RoomMenu roomMenu = new RoomMenu();
+            AdminPanel roomMenu = new AdminPanel();
             roomMenu.displayHomePage();
         });
     }
 
     private void initializeFrame() {
-        frame = new JFrame("Homepage");
+        frame = new JFrame("Admin Panel");
         frame.setSize(949, 758);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -45,20 +45,37 @@ public class RoomMenu {
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
 
         JPanel containerNavbar = new JPanel();
-        JButton backButton = new JButton("Back"); // Use the class-level backButton variable
-        backButton.addMouseListener(new MouseAdapter() {
+        JButton adminHome = new JButton("Room List"); // Use the class-level backButton variable
+        adminHome.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.displayHomePage();
-                frame.dispose();
+
+            }
+        });
+
+        JButton newRoom = new JButton("New Room"); // Use the class-level backButton variable
+        newRoom.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
+
+        JButton bookedRoom = new JButton("Edit"); // Use the class-level backButton variable
+        bookedRoom.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
             }
         });
 
         containerNavbar.setLayout(new FlowLayout(FlowLayout.LEFT));
         containerNavbar.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
         containerNavbar.setBackground(Color.decode("#AA323C"));
-        containerNavbar.add(backButton); // Use backButton instead of mainMenuLabel and historyLabel
+
+        containerNavbar.add(adminHome); // Use backButton instead of mainMenuLabel and historyLabel
+        containerNavbar.add(newRoom); // Use backButton instead of mainMenuLabel and historyLabel
+        containerNavbar.add(bookedRoom); // Use backButton instead of mainMenuLabel and historyLabel
 
         navPanel.add(new navHeader());
         navPanel.add(containerNavbar);
@@ -69,7 +86,7 @@ public class RoomMenu {
         contentPanel = new JPanel(new CardLayout());
 
         // Initialize room object
-        room = new ShowRoom("none");
+        room = new ShowRoom("ADMIN");
 
         contentPanel.add(room);
 
