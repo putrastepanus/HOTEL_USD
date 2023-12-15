@@ -63,7 +63,7 @@ public class Room {
 
         try {
             st = connection.createStatement();
-            rs = st.executeQuery("SELECT * FROM GUEST");
+            rs = st.executeQuery("SELECT * FROM ROOM");
             while (rs.next()) {
                 String no_kamar = rs.getString("no_kamar");
                 String tipe_kamar = rs.getString("tipe_kamar");

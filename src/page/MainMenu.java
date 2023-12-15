@@ -17,6 +17,7 @@ public class MainMenu {
     private JLabel mainMenuLabel;
     private JLabel historyLabel;
     private ListRoom listRoom;
+    private HistoryPanel historyPage;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -88,7 +89,8 @@ public class MainMenu {
     }
 
     private void showHistoryPage() {
-        JPanel historyPanel = new HistoryPanel(); // Ganti dengan kelas HistoryPanel sebenarnya atau komponen
+
+        HistoryPanel historyPanel = new HistoryPanel();
         addCardToContentPanel(historyPanel);
     }
 
