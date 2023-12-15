@@ -44,8 +44,8 @@ public class fasilitas_kamar {
     public int getNO_KAMAR() {
         return NO_KAMAR;
     }
-    
-            public static List<fasilitas_kamar> getAllUsers() {
+
+    public static List<fasilitas_kamar> getAllUsers() {
         db konek = new db();
         Connection connection = konek.getConnect();
         Statement st = null;
@@ -79,5 +79,78 @@ public class fasilitas_kamar {
         }
         return fasilitasKamar;
     }
+
+    public void tambahFasilitasKamar(int FASILITAS_ID, int NO_KAMAR) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        PreparedStatement ps = null;
+
+        try {
+            // Menggunakan PreparedStatement untuk memasukkan parameter
+            String insertQuery = "INSERT INTO FASILITAS_KAMAR (FASILITAS_ID, NO_KAMAR) VALUES (?, ?)";
+            ps = connection.prepareStatement(insertQuery);
+
+            // Set nilai parameter
+            ps.setInt(1, FASILITAS_ID);
+            ps.setInt(2, NO_KAMAR);
+
+            // Eksekusi insert
+            int rowsInserted = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang berhasil diinsert
+            System.out.println("Jumlah baris yang berhasil diinsert: " + rowsInserted);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
     
+        public void editFasilitasKamar(int FASILITAS_KAMAR_ID, int FASILITAS_ID, int NO_KAMAR) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        Statement st = null;
+        PreparedStatement ps = null;
+        try {
+            String updateQuery = "UPDATE FASILITAS_KAMAR SET FASILITAS_ID = ?, NO_KAMAR = ? WHERE FASILITAS_KAMAR_ID = ?";
+            ps = connection.prepareStatement(updateQuery);
+
+            // Set nilai parameter
+            ps.setInt(1, FASILITAS_ID);
+            ps.setInt(2, NO_KAMAR);
+
+            // Eksekusi update
+            int rowsUpdated = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang terupdate
+            System.out.println("Jumlah baris yang terupdate: " + rowsUpdated);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
 }

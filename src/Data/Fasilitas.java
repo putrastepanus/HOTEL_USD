@@ -18,9 +18,9 @@ public class Fasilitas {
     private static List<Fasilitas> FasilitasList = new ArrayList<>();
     private int Fasilitas_ID;
     private String Nama_fasilitas;
-    private String Biaya_fasilitas;
+    private int Biaya_fasilitas;
 
-    public Fasilitas(int Fasilitas_ID, String Nama_fasilitas, String Biaya_fasilitas) {
+    public Fasilitas(int Fasilitas_ID, String Nama_fasilitas, int Biaya_fasilitas) {
         this.Fasilitas_ID = Fasilitas_ID;
         this.Nama_fasilitas = Nama_fasilitas;
         this.Biaya_fasilitas = Biaya_fasilitas;
@@ -41,7 +41,7 @@ public class Fasilitas {
         return Nama_fasilitas;
     }
 
-    public String getBiaya_fasilitas() {
+    public int getBiaya_fasilitas() {
         return Biaya_fasilitas;
     }
     
@@ -58,7 +58,7 @@ public class Fasilitas {
                 int Fasilitas_ID = rs.getInt("fasilitas_id");
                 String Nama_fasilitas = rs.getString("nama_fasilitas");
                 int Biaya_fasilitas = rs.getInt("biaya_fasilitas");
-                FasilitasList.add(new Fasilitas(Fasilitas_ID, Nama_fasilitas, Nama_fasilitas));
+                FasilitasList.add(new Fasilitas(Fasilitas_ID, Nama_fasilitas, Biaya_fasilitas));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -78,5 +78,41 @@ public class Fasilitas {
             }
         }
         return FasilitasList;
+    }
+        
+            public void tambahFasilitas(String Nama_fasilitas, int Biaya_fasilitas) {
+        db konek = new db();
+        Connection connection = konek.getConnect();
+        PreparedStatement ps = null;
+
+        try {
+            // Menggunakan PreparedStatement untuk memasukkan parameter
+            String insertQuery = "INSERT INTO FASILITAS (Nama_fasilitas, Biaya_fasilitas) VALUES (?, ?)";
+            ps = connection.prepareStatement(insertQuery);
+
+            // Set nilai parameter
+            ps.setString(1, Nama_fasilitas);
+            ps.setInt(2, Biaya_fasilitas);
+
+            // Eksekusi insert
+            int rowsInserted = ps.executeUpdate();
+
+            // Menampilkan jumlah baris yang berhasil diinsert
+            System.out.println("Jumlah baris yang berhasil diinsert: " + rowsInserted);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
